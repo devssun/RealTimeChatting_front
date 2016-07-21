@@ -22,11 +22,13 @@ ListView->Adapter->data
 * String : Java에서 가져오는 String array(주로 값이 바뀔 때 사용한다)
 * Adapter에다 값을 넣어서 가져왕!  리스트뷰는 그냥 보여주는 역할.
 
+
 <Inflater>
 * Inflater : 전개, 펼친다
 * XML파일을 가져올 때 사용한다
 * ex) mInflater.inflate(R.menu.menu_main, menu);
 * menu XML을 가져온다
+
 
 <Intent>
 * 액티비티간에 인수와 리턴값을 전달하는 도구로 사용
@@ -35,10 +37,12 @@ ListView->Adapter->data
 * this -> 자기 자신을 가리킴
 * MainActivity.this -> 다른 이벤트에서 갈때
 
+
 * 명시적 인텐트 : 호출대상 컴포넌트가 분명히 명시되어 있는 것
 * 암시적 인텐트 : 호출 대상이 정확히 정해지지 않은 인텐트
 * 
 * putExtra() - 매개변수 앞의 키로 값을 찾는다
+
 
 <액티비티 간의 통신>
 * getStringExtra : 값을 가져온다
