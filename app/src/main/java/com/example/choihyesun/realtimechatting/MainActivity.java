@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     // today Date
     String currentDate;
     Calendar today;
+    int amFm;
 
 //    TextView chatContentTxt;
     EditText sendMsgEdit;
@@ -42,8 +43,14 @@ public class MainActivity extends AppCompatActivity {
         sendMsgEdit = (EditText) findViewById(R.id.sendMsgEdit);
         sendMsgBtn = (Button) findViewById(R.id.sendBtn);
 
+        // 시간 뿌리기
         today = Calendar.getInstance();
-        currentDate = (today.get(Calendar.HOUR_OF_DAY) + "/" + today.get(Calendar.MINUTE));
+        amFm = today.get(Calendar.HOUR_OF_DAY);
+
+        if(amFm < 12)
+            currentDate = "오전 " + (today.get(Calendar.HOUR_OF_DAY) + ":" + today.get(Calendar.MINUTE));
+        if(amFm > 13)
+            currentDate = "오후 " + (today.get(Calendar.HOUR_OF_DAY) + ":" + today.get(Calendar.MINUTE));
 
         adapter = new CustomAdapter(this, R.layout.layout_list_row, chatList);
 
@@ -52,12 +59,13 @@ public class MainActivity extends AppCompatActivity {
         URI uri = null;
 
         try {
-            uri = new URI("ws://192.168.0.143:8889");
+            uri = new URI("ws://192.168.25.44:8889");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         listView = (ListView) findViewById(R.id.listView);
+        listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL); // 새로운 리스트뷰로 자동 스크롤
         listView.setAdapter(adapter);
         listView.setSelection(adapter.getCount() - 1);
 
@@ -68,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onMessage(String s) {
+                // 메세지 뿌리는 곳
                 final String message = s;
                 runOnUiThread(new Runnable() {
                     @Override
