@@ -1,5 +1,6 @@
 package com.example.choihyesun.realtimechatting;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
     private BackPressCloseHandler backPressCloseHandler;
 
+    private String nickname;
+    private String password;
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,10 +64,14 @@ public class MainActivity extends AppCompatActivity {
         URI uri = null;
 
         try {
-            uri = new URI("ws://192.168.25.44:8889");
+            uri = new URI("ws://192.168.0.143:8889");
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        intent = getIntent();
+        intent.getStringExtra("userId");
+        intent.getStringExtra("pswd");
 
         listView = (ListView) findViewById(R.id.listView);
         listView.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL); // 새로운 리스트뷰로 자동 스크롤
@@ -72,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         mWebSocketClient = new WebSocketClient(uri) {
             @Override
             public void onOpen(ServerHandshake serverHandshake) {
+                sendMessageOpen();
             }
 
             @Override
@@ -91,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClose(int i, String s, boolean b) {
                 Log.i("Websocket", "Closed " + s);
+                sendMessageClose();
             }
 
             @Override
@@ -115,15 +126,31 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendMessage(){
         try{
-            mWebSocketClient.send(sendMsgEdit.getText().toString());
+            mWebSocketClient.send(intent.getStringExtra("nickname") + ": " + sendMsgEdit.getText().toString());
         }catch (Exception e){
             e.printStackTrace();
         }
         sendMsgEdit.setText("");
     }
 
+    public void sendMessageOpen(){
+        try{
+            mWebSocketClient.send(intent.getStringExtra("nickname") + "님이 입장하셨습니다");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMessageClose(){
+        try{
+            mWebSocketClient.send(intent.getStringExtra("nickname") + "님이 나가셨습니다");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
     }
 }
