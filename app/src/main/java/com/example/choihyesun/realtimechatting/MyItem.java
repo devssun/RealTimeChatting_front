@@ -2,6 +2,7 @@ package com.example.choihyesun.realtimechatting;
 
 /**
  * Created by choihyesun on 15. 11. 9..
+ * message, time VO class
  */
 public class MyItem {
     private String message;

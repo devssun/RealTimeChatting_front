@@ -69,8 +69,7 @@ public class LoginActivity extends Activity{
                 // 입력된 userId와 db의 userId가 동일하면 데이터 전송하고 intent 넘김
                 if(userId.equals(userDTO.getUserId())){
                     intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("userId", userDTO.getUserId());
-                    intent.putExtra("pswd", userDTO.getPswd());
+                    intent.putExtra("user", userDTO);
                     startActivity(intent);
                 }else{
                     Toast.makeText(getApplicationContext(), "등록되지않은 회원입니다", Toast.LENGTH_SHORT).show();

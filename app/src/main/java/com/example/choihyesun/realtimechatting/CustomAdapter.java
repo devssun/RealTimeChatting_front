@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 /**
  * Created by choihyesun on 15. 11. 9..
+ * 데이터 어댑터 클래스
  */
 public class CustomAdapter extends BaseAdapter{
     private Context context;
